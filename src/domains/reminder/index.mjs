@@ -18,11 +18,11 @@ router.post("/", () => {
 
 });
 
-router.put("/", () => {
+router.put("/:id", () => {
 
 })
 
-router.delete("/", () => {
+router.delete("/:id", () => {
 
 });
 
