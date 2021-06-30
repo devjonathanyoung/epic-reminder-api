@@ -1,4 +1,4 @@
-import reminderDataAccess from "../data-access/index.mjs";
+import reminderDataAccess from "../data-access/index.js";
 
 const getAllReminders = async () => {
     const reminders = await reminderDataAccess.selectAllReminders();

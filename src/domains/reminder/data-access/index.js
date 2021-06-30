@@ -1,4 +1,4 @@
-import dbReminder from "../../../infrastructure/database/index.mjs";
+import dbReminder from "../../../infrastructure/database/index.js";
 
 const selectAllReminders = async () => {
     const reminders = await dbReminder("reminder").select("*");

@@ -1,5 +1,5 @@
 
-import reminderServices from "./service/index.mjs"
+import reminderServices from "./service/index.js"
 import promiseRouter from "express-promise-router";
 
 const router = promiseRouter();
