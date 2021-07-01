@@ -11,11 +11,11 @@ const selectOneReminder = async (reminderId) => {
 };
 
 const createOneReminder = async (newReminder) => {
-    const reminder = await dbReminder("reminder").insert({id: newReminder.id, date: newReminder.date, name : newReminder.name, type: newReminder.type});
+    const reminder = await dbReminder("reminder").insert({date: newReminder.date, name : newReminder.name, type: newReminder.type});
     return reminder;
     //id par default ?
-    //const {id, date, name, type} = newReminder;
-    //const reminder = await dbReminder("reminder").insert({id, date, name, type});
+    //const {date, name, type} = newReminder;
+    //const reminder = await dbReminder("reminder").insert({date, name, type});
 }
 
 const updateOneReminder = async (reminderId, updates) => {
