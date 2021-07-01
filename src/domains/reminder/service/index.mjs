@@ -5,6 +5,31 @@ const getAllReminders = async () => {
     return reminders;
 };
 
+const getOneReminder = async (reminderId) => {
+    const reminder = await reminderDataAccess.selectOneReminder(reminderId);
+    return reminder;
+};
+
+const createOneReminder = async (newReminder) => {
+    const reminder = await reminderDataAccess.createOneReminder(newReminder);
+    return reminder;
+    //const newReminder possible ? 
+};
+
+const updateOneReminder = async (reminderId, updates) => {
+    const updatedReminder = await reminderDataAccess.updateOneReminder(reminderId, updates);
+    return updatedReminder;
+};
+
+const deleteOneReminder = async (reminderId) => {
+    const deletedReminder = await reminderDataAccess.deleteOneReminder(reminderId);
+    return deletedReminder;
+};
+
 export default {
-    getAllReminders
+    getAllReminders,
+    getOneReminder,
+    createOneReminder,
+    updateOneReminder,
+    deleteOneReminder
 }

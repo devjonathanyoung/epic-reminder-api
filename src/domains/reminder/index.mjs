@@ -10,20 +10,25 @@ router.get("/", async (req, res) => {
 });
 
 
-router.get("/:id", () => {
-    
+router.get("/:id", async (req, res) => {
+    const reminder = await reminderServices.getOneReminder(req.params.id);
+    res.send(reminder);
 });
 
-router.post("/", () => {
-
+router.post("/", async (req, res) => {
+    const newReminder = await reminderServices.createOneReminder({...req.body});
+    res.send(newReminder);
 });
 
-router.put("/:id", () => {
-
+router.put("/:id", async (req, res) => {
+    const updatedReminder = await reminderServices.updateOneReminder(req.params.id, {...req.body});
+    res.send(updatedReminder);
 })
 
-router.delete("/:id", () => {
-
+router.delete("/:id", async (req, res) => {
+    const deletedReminder = await reminderServices.deleteOneReminder(req.params.id);
+    res.send(deletedReminder);
+    //res.redirect("/");
 });
 
 export default router;
