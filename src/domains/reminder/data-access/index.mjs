@@ -6,16 +6,17 @@ const selectAllReminders = async () => {
 };
 
 const selectOneReminder = async (reminderId) => {
-    const reminder = await dbReminder("reminder").select("x").where('id', reminderId);
+    const reminder = await dbReminder("reminder").select("*").where('id', reminderId);
     return reminder;
 };
 
-const createOneReminder = async (newReminder) => {
-    const reminder = await dbReminder("reminder").insert({date: newReminder.date, name : newReminder.name, type: newReminder.type});
-    return reminder;
+const insertOneReminder = async (newReminder) => {
+    // const reminder = await dbReminder("reminder").insert({date: newReminder.date, name : newReminder.name, type: newReminder.type});
+    // return reminder;
     //id par default ?
-    //const {date, name, type} = newReminder;
-    //const reminder = await dbReminder("reminder").insert({date, name, type});
+    const {date, name, type} = newReminder;
+    const reminder = await dbReminder("reminder").insert({date, name, type});
+    return reminder;
 }
 
 const updateOneReminder = async (reminderId, updates) => {
@@ -30,7 +31,7 @@ const updateOneReminder = async (reminderId, updates) => {
 }
 
 const deleteOneReminder = async (reminderId) => {
-    const deletedRreminder = await dbReminder("reminder").where('id', reminderId).del();
+    const deletedReminder = await dbReminder("reminder").where('id', reminderId).del();
     return deletedReminder;
     //return le reminder supprimé ? 
 }
@@ -38,7 +39,7 @@ const deleteOneReminder = async (reminderId) => {
 export default {
     selectAllReminders,
     selectOneReminder,
-    createOneReminder,
+    insertOneReminder,
     updateOneReminder,
     deleteOneReminder
 }

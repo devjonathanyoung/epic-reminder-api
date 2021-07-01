@@ -11,7 +11,7 @@ const getOneReminder = async (reminderId) => {
 };
 
 const createOneReminder = async (newReminder) => {
-    const reminder = await reminderDataAccess.createOneReminder(newReminder);
+    const reminder = await reminderDataAccess.insertOneReminder(newReminder);
     return reminder;
     //const newReminder possible ? 
 };
