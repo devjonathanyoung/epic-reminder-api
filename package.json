@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "\"# epic-reminder-api\"",
   "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nodemon -r dotenv/config index.mjs"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "start": "npx nodemon -r dotenv/config --experimental-vm-modules index.js"
   },
   "repository": {
     "type": "git",
@@ -18,13 +19,27 @@
   },
   "homepage": "https://github.com/devjonathanyoung/epic-reminder-api#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-promise-router": "^4.1.0",
+    "helmet": "^4.6.0",
     "knex": "^0.95.6",
-    "pg": "^8.6.0"
+    "morgan": "^1.10.0",
+    "pg": "^8.6.0",
+    "validator": "^13.6.0",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.9"
+    "@jest/globals": "^26.6.2",
+    "@types/express": "^4.17.12",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^15.12.5",
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.9",
+    "supertest": "^6.1.3"
   }
 }
