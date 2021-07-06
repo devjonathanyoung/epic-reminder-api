@@ -9,12 +9,14 @@ const getAllReminders = async () => {
 };
 
 const getOneReminder = async (reminderId) => {
+    if (!validator.isUUID(reminderId)){
+        return [];
+    }
     const reminder = await reminderDataAccess.selectOneReminder(reminderId);
     return reminder;
 };
 
 const createOneReminder = async (newReminder) => {
-
     let checkData = [];
     if (newReminder.id && !validator.isUUID(newReminder.id)){
         checkData.push("UUID doesn't fit the correct format. ")
@@ -22,7 +24,7 @@ const createOneReminder = async (newReminder) => {
     if (!validator.isIn(newReminder.type, ["movie", "book", "game"])){
         checkData.push("Type must be movie, book or game. ")
     }
-    if (!validator.isDate(newReminder.date.substring(0, 10), "YYYY-MM-DD")){
+    if (newReminder.date && !validator.isDate(newReminder.date.substring(0, 10), "YYYY-MM-DD")){
         checkData.push("Date doesn't fit the correct format.")
     }
     if (checkData.length > 0) {
@@ -32,22 +34,42 @@ const createOneReminder = async (newReminder) => {
     return reminder;
 };
 
-const updateOneReminder = async (reminderId, updates) => {
+const updateOneReminder = async (reminderId, update) => {
+    //Check if user put an empty value on name or type
+    let isEmpty = [];
+    if ('type' in update && validator.isEmpty(update.type)){
+        isEmpty.push("Type's field is empty. ")
+    }
+    if ('name' in update && validator.isEmpty(update.name)){
+        isEmpty.push("Name's field is empty. ")
+    }
+    if (isEmpty.length > 0) {
+        return isEmpty;
+    }
+    //Check format value
     let checkData = [];
-    if (!validator.isIn(updates.type, ["movie", "book", "game"])){
+    if (reminderId && !validator.isUUID(reminderId)){
+        checkData.push("UUID doesn't fit the correct format. ")
+    }
+    if (update.type && !validator.isIn(update.type, ["movie", "book", "game"])){
         checkData.push("Type must be movie, book or game. ")
     }
-    if (!validator.isDate(updates.date.substring(0, 10), "YYYY-MM-DD")){
+    if (update.date && validator.isDate(update.date.substring(0, 10), "YYYY-MM-DD")){
         checkData.push("Date doesn't fit the correct format.")
     }
     if (checkData.length > 0) {
         return checkData
     }
-    const updatedReminder = await reminderDataAccess.updateOneReminder(reminderId, updates);
+    //Missing check on making doublon
+    //If no empty mandatory value && no format mistake, reminder is updated
+    const updatedReminder = await reminderDataAccess.updateOneReminder(reminderId, update);
     return updatedReminder;
 };
 
 const deleteOneReminder = async (reminderId) => {
+    if (!validator.isUUID(reminderId)){
+        return;
+    }
     const deletedReminder = await reminderDataAccess.deleteOneReminder(reminderId);
     return deletedReminder;
 };

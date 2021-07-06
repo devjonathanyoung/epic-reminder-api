@@ -20,7 +20,7 @@ const insertOneReminder = async (newReminder) => {
   return reminder;
 };
 
-const updateOneReminder = async (reminderId, updates) => {
+const updateOneReminder = async (reminderId, update) => {
   const reminder = await dbReminder("reminder")
     .select("*")
     .where("id", reminderId);
@@ -28,10 +28,10 @@ const updateOneReminder = async (reminderId, updates) => {
     return reminder;
   }
   //
-  const { date, name, type, comment } = updates;
+  //const { date, name, type, comment } = updates;
   const updatedReminder = await dbReminder("reminder")
     .where("id", reminderId)
-    .update({ date, name, type, comment })
+    .update(update)
     .returning("*");
   return updatedReminder;
 };
