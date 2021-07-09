@@ -2,6 +2,7 @@
 import reminderServices from "../service/index.js"
 import promiseRouter from "express-promise-router";
 
+
 const router = promiseRouter();
 
 router.get("/", async (req, res) => {
@@ -24,6 +25,7 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
     const addReminder = {...req.body}
     // ajouter ce controle dans service via validator.isEmpty ? 
+    console.log("body", req.body);
     if (!addReminder.name || !addReminder.type) {
         return res.send({error : "You must provide a name and a type for this reminder."})
     }

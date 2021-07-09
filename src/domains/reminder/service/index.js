@@ -18,13 +18,13 @@ const getOneReminder = async (reminderId) => {
 
 const createOneReminder = async (newReminder) => {
     let checkData = [];
-    if (newReminder.id && !validator.isUUID(newReminder.id)){
+    if (newReminder.id && !validator.isUUID(String(newReminder.id))){
         checkData.push("UUID doesn't fit the correct format. ")
     }
     if (!validator.isIn(newReminder.type, ["movie", "book", "game"])){
         checkData.push("Type must be movie, book or game. ")
     }
-    if (newReminder.date && !validator.isDate(newReminder.date.substring(0, 10), "YYYY-MM-DD")){
+    if (newReminder.date && !validator.isDate(newReminder.date.substring(0, 10), "YYYY/MM/DD")){
         checkData.push("Date doesn't fit the correct format.")
     }
     if (checkData.length > 0) {
@@ -37,10 +37,10 @@ const createOneReminder = async (newReminder) => {
 const updateOneReminder = async (reminderId, update) => {
     //Check if user put an empty value on name or type
     let isEmpty = [];
-    if ('type' in update && validator.isEmpty(update.type)){
+    if (update.type && validator.isEmpty(update.type)){
         isEmpty.push("Type's field is empty. ")
     }
-    if ('name' in update && validator.isEmpty(update.name)){
+    if (update.name && validator.isEmpty(update.name)){
         isEmpty.push("Name's field is empty. ")
     }
     if (isEmpty.length > 0) {
@@ -48,13 +48,13 @@ const updateOneReminder = async (reminderId, update) => {
     }
     //Check format value
     let checkData = [];
-    if (reminderId && !validator.isUUID(reminderId)){
+    if (reminderId && !validator.isUUID(String(reminderId))){
         checkData.push("UUID doesn't fit the correct format. ")
     }
     if (update.type && !validator.isIn(update.type, ["movie", "book", "game"])){
         checkData.push("Type must be movie, book or game. ")
     }
-    if (update.date && validator.isDate(update.date.substring(0, 10), "YYYY-MM-DD")){
+    if (update.date && !validator.isDate(update.date.substring(0, 10), "YYYY/MM/DD")){
         checkData.push("Date doesn't fit the correct format.")
     }
     if (checkData.length > 0) {
