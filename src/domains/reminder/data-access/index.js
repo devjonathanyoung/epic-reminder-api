@@ -1,7 +1,7 @@
 import dbReminder from "../../../infrastructure/database/index.js";
 
 const selectAllReminders = async () => {
-  const reminders = await dbReminder("reminder").select("*");
+  const reminders = await dbReminder("reminder").select("*").orderBy("date", "desc");
   return reminders;
 };
 
@@ -27,8 +27,6 @@ const updateOneReminder = async (reminderId, update) => {
   if (reminder.length === 0) {
     return reminder;
   }
-  //
-  //const { date, name, type, comment } = updates;
   const updatedReminder = await dbReminder("reminder")
     .where("id", reminderId)
     .update(update)

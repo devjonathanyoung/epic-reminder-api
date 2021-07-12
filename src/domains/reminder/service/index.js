@@ -1,5 +1,6 @@
 import reminderDataAccess from "../data-access/index.js";
 import validator from "validator";
+import { body } from "express-validator";
 
 
 
@@ -16,52 +17,23 @@ const getOneReminder = async (reminderId) => {
     return reminder;
 };
 
+const validationRules =  [
+        body("type").isIn(["movie", "book", "game"]),
+        body("date").optional().isISO8601(),
+        body("comment").optional()
+    ]
+
 const createOneReminder = async (newReminder) => {
-    let checkData = [];
-    if (newReminder.id && !validator.isUUID(String(newReminder.id))){
-        checkData.push("UUID doesn't fit the correct format. ")
-    }
-    if (!validator.isIn(newReminder.type, ["movie", "book", "game"])){
-        checkData.push("Type must be movie, book or game. ")
-    }
-    if (newReminder.date && !validator.isDate(newReminder.date.substring(0, 10), "YYYY/MM/DD")){
-        checkData.push("Date doesn't fit the correct format.")
-    }
-    if (checkData.length > 0) {
-        return checkData
+    validationRules, 
+    (req, res, next) => {
+        const newReminder = matchedData(req, { includeOptionals: true});
+        console.log("test matchData", newReminder);
     }
     const reminder = await reminderDataAccess.insertOneReminder(newReminder);
     return reminder;
 };
 
 const updateOneReminder = async (reminderId, update) => {
-    //Check if user put an empty value on name or type
-    let isEmpty = [];
-    if (update.type && validator.isEmpty(update.type)){
-        isEmpty.push("Type's field is empty. ")
-    }
-    if (update.name && validator.isEmpty(update.name)){
-        isEmpty.push("Name's field is empty. ")
-    }
-    if (isEmpty.length > 0) {
-        return isEmpty;
-    }
-    //Check format value
-    let checkData = [];
-    if (reminderId && !validator.isUUID(String(reminderId))){
-        checkData.push("UUID doesn't fit the correct format. ")
-    }
-    if (update.type && !validator.isIn(update.type, ["movie", "book", "game"])){
-        checkData.push("Type must be movie, book or game. ")
-    }
-    if (update.date && !validator.isDate(update.date.substring(0, 10), "YYYY/MM/DD")){
-        checkData.push("Date doesn't fit the correct format.")
-    }
-    if (checkData.length > 0) {
-        return checkData
-    }
-    //Missing check on making doublon
-    //If no empty mandatory value && no format mistake, reminder is updated
     const updatedReminder = await reminderDataAccess.updateOneReminder(reminderId, update);
     return updatedReminder;
 };

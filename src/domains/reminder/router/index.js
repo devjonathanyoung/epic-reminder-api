@@ -1,9 +1,10 @@
 
 import reminderServices from "../service/index.js"
 import promiseRouter from "express-promise-router";
-
+import expressValidator from "express-validator";
 
 const router = promiseRouter();
+const { body, validationResult } = expressValidator;
 
 router.get("/", async (req, res) => {
     const reminders = await reminderServices.getAllReminders();
@@ -22,46 +23,42 @@ router.get("/:id", async (req, res) => {
     res.send(reminder);
 });
 
-router.post("/", async (req, res) => {
-    const addReminder = {...req.body}
-    // ajouter ce controle dans service via validator.isEmpty ? 
-    console.log("body", req.body);
-    if (!addReminder.name || !addReminder.type) {
-        return res.send({error : "You must provide a name and a type for this reminder."})
+router.post("/", 
+body("name").notEmpty(),
+body("type").notEmpty(),
+body("type").isIn(["movie", "book", "game"]),
+body("date").optional().isISO8601() 
+, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array()});
     }
-    const doublon = await reminderServices.findDoublon(addReminder);
+    const doublon = await reminderServices.findDoublon(req.body);
     if (doublon.length > 0) {
         return res.send({error : "This reminder name and type already exists."})
     }
-    //renommer newReminder en result pour etre cohérent en cas de message d'erreur ?
-    const newReminder = await reminderServices.createOneReminder(addReminder);
-    if (typeof(newReminder[0]) === "string")
-    {
-        return res.send({
-            message: "This reminder has not been created.",
-            alert: newReminder
-        })
-    }
+    const newReminder = await reminderServices.createOneReminder(req.body);
     res.send({
-        message: "This reminder has been successfully created.",
-        newReminder
+                message: "This reminder has been successfully created.",
+                newReminder
+            })
     })
-});
 
-router.put("/:id", async (req, res) => {
+router.put("/:id",
+body("name").notEmpty(),
+body("type").notEmpty(),
+body("type").isIn(["movie", "book", "game"]),
+body("date").optional().isISO8601() 
+, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array()});
+    }
     const updatedDatas = {...req.body}
-
-    //const existingReminder = await reminderServices.getOneReminder(req.params.id);
-    // const doublon = await reminderServices.findDoublon({...existingReminder[0], updatedDatas});
-    // console.log("doublon", doublon)
-    // if (doublon.length > 0) {
-    //     return res.send({error : "This reminder name and type already exists."})
-    // }
     const updatedReminder = await reminderServices.updateOneReminder(req.params.id, updatedDatas);
     if (updatedReminder.length === 0) {
         return res.send({error : "Id reminder not found."})
     }
-    //créer un message d erreur (updateeminder ne soit pas retournr un message d'erreur)
     if (typeof(updatedReminder[0]) === "string")
     {
         return res.send({
