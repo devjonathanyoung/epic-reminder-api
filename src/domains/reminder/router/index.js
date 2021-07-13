@@ -2,7 +2,7 @@
 import reminderServices from "../service/index.js"
 import promiseRouter from "express-promise-router";
 import expressValidator from "express-validator";
-import { Console } from "console";
+import { body } from "express-validator";
 
 const router = promiseRouter();
 const { body, validationResult, matchedData } = expressValidator;
