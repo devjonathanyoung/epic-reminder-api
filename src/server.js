@@ -1,5 +1,5 @@
 import express from "express";
-import reminderRouter from "./domains/reminder/index.js";
+import reminderRouter from "./domains/reminder/router/index.js";
 import configureApp from "./config/app-config.js";
 
 const app = express();
