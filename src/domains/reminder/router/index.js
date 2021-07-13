@@ -2,9 +2,10 @@
 import reminderServices from "../service/index.js"
 import promiseRouter from "express-promise-router";
 import expressValidator from "express-validator";
+import { Console } from "console";
 
 const router = promiseRouter();
-const { body, validationResult } = expressValidator;
+const { body, validationResult, matchedData } = expressValidator;
 
 router.get("/", async (req, res) => {
     const reminders = await reminderServices.getAllReminders();
@@ -23,39 +24,39 @@ router.get("/:id", async (req, res) => {
     res.send(reminder);
 });
 
-router.post("/", 
+const validationRulesCreate = [body("type").isIn(["movie", "book", "game"]),
+body("date").optional().isISO8601(),
 body("name").notEmpty(),
-body("type").notEmpty(),
-body("type").isIn(["movie", "book", "game"]),
-body("date").optional().isISO8601() 
+body("comment").optional()]
+
+router.post("/", 
+validationRulesCreate
 , async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()});
     }
-    const doublon = await reminderServices.findDoublon(req.body);
-    if (doublon.length > 0) {
-        return res.send({error : "This reminder name and type already exists."})
-    }
-    const newReminder = await reminderServices.createOneReminder(req.body);
+    const validateDatas = matchedData(req);  
+    const resultCreation = await reminderServices.createOneReminder(validateDatas);
     res.send({
-                message: "This reminder has been successfully created.",
-                newReminder
+                resultCreation
             })
     })
 
+    const validationRulesUpdate = [body("type").optional().isIn(["movie", "book", "game"]),
+    body("date").optional().isISO8601(),
+    body("name").optional().notEmpty(),
+    body("comment").optional()]
+
 router.put("/:id",
-body("name").notEmpty(),
-body("type").notEmpty(),
-body("type").isIn(["movie", "book", "game"]),
-body("date").optional().isISO8601() 
+validationRulesUpdate
 , async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()});
     }
-    const updatedDatas = {...req.body}
-    const updatedReminder = await reminderServices.updateOneReminder(req.params.id, updatedDatas);
+    const validateDatas = matchedData(req); 
+    const updatedReminder = await reminderServices.updateOneReminder(req.params.id, validateDatas);
     if (updatedReminder.length === 0) {
         return res.send({error : "Id reminder not found."})
     }

@@ -17,20 +17,16 @@ const getOneReminder = async (reminderId) => {
     return reminder;
 };
 
-const validationRules =  [
-        body("type").isIn(["movie", "book", "game"]),
-        body("date").optional().isISO8601(),
-        body("comment").optional()
-    ]
-
 const createOneReminder = async (newReminder) => {
-    validationRules, 
-    (req, res, next) => {
-        const newReminder = matchedData(req, { includeOptionals: true});
-        console.log("test matchData", newReminder);
+    const doublon = await reminderDataAccess.findDoublon(newReminder);
+    if (doublon.length > 0) {
+        return {error : "This reminder name and type already exists."};
     }
     const reminder = await reminderDataAccess.insertOneReminder(newReminder);
-    return reminder;
+    return {
+            message: "This reminder has been successfully created.",
+            newReminder
+                    };
 };
 
 const updateOneReminder = async (reminderId, update) => {
