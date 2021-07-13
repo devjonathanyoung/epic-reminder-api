@@ -5,7 +5,7 @@ import expressValidator from "express-validator";
 import { body } from "express-validator";
 
 const router = promiseRouter();
-const { body, validationResult, matchedData } = expressValidator;
+const { validationResult, matchedData } = expressValidator;
 
 router.get("/", async (req, res) => {
     const reminders = await reminderServices.getAllReminders();
