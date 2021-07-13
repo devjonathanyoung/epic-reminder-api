@@ -1,11 +1,9 @@
-
 import reminderServices from "../service/index.js"
 import promiseRouter from "express-promise-router";
 import expressValidator from "express-validator";
-import { body } from "express-validator";
 
 const router = promiseRouter();
-const { validationResult, matchedData } = expressValidator;
+const { validationResult, matchedData, body } = expressValidator;
 
 router.get("/", async (req, res) => {
     const reminders = await reminderServices.getAllReminders();
@@ -29,14 +27,14 @@ body("date").optional().isISO8601(),
 body("name").notEmpty(),
 body("comment").optional()]
 
-router.post("/", 
+router.post("/",
 validationRulesCreate
 , async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()});
     }
-    const validateDatas = matchedData(req);  
+    const validateDatas = matchedData(req);
     const resultCreation = await reminderServices.createOneReminder(validateDatas);
     res.send({
                 resultCreation
@@ -55,7 +53,7 @@ validationRulesUpdate
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array()});
     }
-    const validateDatas = matchedData(req); 
+    const validateDatas = matchedData(req);
     const updatedReminder = await reminderServices.updateOneReminder(req.params.id, validateDatas);
     if (updatedReminder.length === 0) {
         return res.send({error : "Id reminder not found."})
@@ -68,7 +66,7 @@ validationRulesUpdate
         })
     }
     res.send({
-        message: "This reminder has been successfully updated.", 
+        message: "This reminder has been successfully updated.",
         updatedReminder
     })
 })
