@@ -7,7 +7,7 @@ const selectAllReminders = async () => {
 
 const selectOneReminder = async (reminderId) => {
   const reminder = await dbReminder("reminder")
-    .select("*")
+    .first("*")
     .where("id", reminderId);
   return reminder;
 };
@@ -47,7 +47,7 @@ const findDoublon = async (newReminder) => {
       name: newReminder.name,
       type: newReminder.type,
     })
-    .select("id");
+    .first("id");
   return doublon;
 };
 

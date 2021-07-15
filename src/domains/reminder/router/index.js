@@ -55,20 +55,7 @@ validationRulesUpdate
     }
     const validateDatas = matchedData(req);
     const updatedReminder = await reminderServices.updateOneReminder(req.params.id, validateDatas);
-    if (updatedReminder.length === 0) {
-        return res.send({error : "Id reminder not found."})
-    }
-    if (typeof(updatedReminder[0]) === "string")
-    {
-        return res.send({
-            message: "This reminder has not been updated.",
-            alert: updatedReminder
-        })
-    }
-    res.send({
-        message: "This reminder has been successfully updated.",
-        updatedReminder
-    })
+    res.send(updatedReminder)
 })
 
 router.delete("/:id", async (req, res) => {
