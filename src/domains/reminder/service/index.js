@@ -1,5 +1,4 @@
 import reminderDataAccess from "../data-access/index.js";
-import validator from "validator";
 
 const getAllReminders = async () => {
     const reminders = await reminderDataAccess.selectAllReminders();
@@ -7,19 +6,20 @@ const getAllReminders = async () => {
 };
 
 const getOneReminder = async (reminderId) => {
-    if (!validator.isUUID(reminderId)){
-        return [];
-    }
     const reminder = await reminderDataAccess.selectOneReminder(reminderId);
     return reminder;
 };
 
 const createOneReminder = async (newReminder) => {
-    const reminder = await reminderDataAccess.insertOneReminder(newReminder);
+    const doublon = await reminderDataAccess.findDoublon(newReminder);
+    if (doublon.length > 0) {
+        return { error : "This reminder name and type already exists." };
+    }
+    const reminderCreated = await reminderDataAccess.insertOneReminder(newReminder);
     return {
             message: "This reminder has been successfully created.",
-            newReminder
-                    };
+            reminderCreated
+    };
 };
 
 const updateOneReminder = async (reminderId, update) => {
@@ -47,9 +47,6 @@ const updateOneReminder = async (reminderId, update) => {
 }
 
 const deleteOneReminder = async (reminderId) => {
-    if (!validator.isUUID(reminderId)){
-        return;
-    }
     const deletedReminder = await reminderDataAccess.deleteOneReminder(reminderId);
     return deletedReminder;
 };
