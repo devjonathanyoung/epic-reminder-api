@@ -7,44 +7,33 @@ const getAllReminders = async () => {
 
 const getOneReminder = async (reminderId) => {
     const reminder = await reminderDataAccess.selectOneReminder(reminderId);
+    if (!reminder) {
+        throw "Id not found";
+    }
     return reminder;
 };
 
 const createOneReminder = async (newReminder) => {
-    const doublon = await reminderDataAccess.findDoublon(newReminder);
-    if (doublon.length > 0) {
-        return { error : "This reminder name and type already exists." };
+    const isDoublon = await findDoublon(newReminder);
+    if (isDoublon) {
+        throw "The reminder already exists.";
     }
     const reminderCreated = await reminderDataAccess.insertOneReminder(newReminder);
-    return {
-            message: "This reminder has been successfully created.",
-            reminderCreated
-    };
+    return reminderCreated;
 };
 
 const updateOneReminder = async (reminderId, update) => {
     // Does the id exist ?
     const existingReminder = await getOneReminder(reminderId);
-    if (!existingReminder) {
-        return {
-            message: "Id not found."
-        };
-    }  
-    // Update the body of the reminder with the new info
-    const reminderModified = {...existingReminder, ...update};
+    
     // Update for real the reminder in the DB
-    const updatedReminder = await reminderDataAccess.updateOneReminder(reminderId, update);
+    const updatedReminder = await reminderDataAccess.updateOneReminder(existingReminder.id, update);
     if (!updatedReminder) {
-        return {
-            message: "An error occured when processing update."
-        };
+        throw "An error occured when processing update.";
     } else {
-        return {
-            message: "The reminder has been successfully updated.",
-            updatedReminder
-        };
+        return updatedReminder
     }
-}
+};
 
 const deleteOneReminder = async (reminderId) => {
     const deletedReminder = await reminderDataAccess.deleteOneReminder(reminderId);
