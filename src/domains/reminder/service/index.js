@@ -14,10 +14,6 @@ const getOneReminder = async (reminderId) => {
 };
 
 const createOneReminder = async (newReminder) => {
-    const isDoublon = await findDoublon(newReminder);
-    if (isDoublon) {
-        throw "The reminder already exists.";
-    }
     const reminderCreated = await reminderDataAccess.insertOneReminder(newReminder);
     return reminderCreated;
 };
