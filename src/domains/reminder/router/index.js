@@ -42,7 +42,7 @@ validationRulesCreate
     })
 
     const validationRulesUpdate = [body("type").optional().isIn(["movie", "book", "game"]),
-    body("date").optional().isISO8601(),
+    // body("date").optional().isISO8601(),
     body("name").optional().notEmpty(),
     body("comment").optional()]
 

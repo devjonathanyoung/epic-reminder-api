@@ -41,21 +41,10 @@ const deleteOneReminder = async (reminderId) => {
   return deletedReminder;
 };
 
-const findDoublon = async (newReminder) => {
-  const doublon = await dbReminder("reminder")
-    .where({
-      name: newReminder.name,
-      type: newReminder.type,
-    })
-    .first("id");
-  return doublon;
-};
-
 export default {
   selectAllReminders,
   selectOneReminder,
   insertOneReminder,
   updateOneReminder,
   deleteOneReminder,
-  findDoublon,
 };
