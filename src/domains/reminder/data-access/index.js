@@ -37,7 +37,8 @@ const updateOneReminder = async (reminderId, update) => {
 const deleteOneReminder = async (reminderId) => {
   const deletedReminder = await dbReminder("reminder")
     .where("id", reminderId)
-    .del();
+    .del()
+    .returning("id");
   return deletedReminder;
 };
 

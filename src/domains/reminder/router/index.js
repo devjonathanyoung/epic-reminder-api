@@ -1,6 +1,4 @@
-import reminderServices from "../service/index.js"
 import promiseRouter from "express-promise-router";
-import expressValidator from "express-validator";
 
 import { handleGetAllReminders } from "./routes/handle-get-all-reminders.js";
 import { validationRulesGetOneReminder, handleGetOneReminder } from "./routes/handle-get-one-reminder.js";
@@ -9,7 +7,6 @@ import { validationRulesUpdate, handleUpdateReminder } from "./routes/handle-upd
 import { validationRulesDelete, handleDeleteReminder } from "./routes/handle-delete-reminder.js"; 
 
 const router = promiseRouter();
-const { validationResult, matchedData, body, param } = expressValidator;
 
 /**
  * route to get all reminders

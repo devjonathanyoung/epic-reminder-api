@@ -11,8 +11,5 @@ export const validationRulesDelete = [param("id").exists().isUUID()];
  */
 export const handleDeleteReminder = async (req, res) => {
     const deletedReminder = await reminderServices.deleteOneReminder(req.params.id);
-    if (!deletedReminder) {
-        return res.send({error : "Id reminder not found."})
-    }
-    res.send({message: "This reminder has been successfully deleted."})
+    res.send(deletedReminder);
 };

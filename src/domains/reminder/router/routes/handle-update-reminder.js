@@ -22,5 +22,5 @@ export const handleUpdateReminder = async (req, res) => {
     const validatedDatas = matchedData(req);
     const updatedReminder = await reminderServices.updateOneReminder(req.params.id, validatedDatas);
 
-    res.send({ updatedReminder});
+    res.send(updatedReminder);
 };

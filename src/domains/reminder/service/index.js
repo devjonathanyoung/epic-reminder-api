@@ -36,7 +36,8 @@ const updateOneReminder = async (reminderId, update) => {
 };
 
 const deleteOneReminder = async (reminderId) => {
-    const deletedReminder = await reminderDataAccess.deleteOneReminder(reminderId);
+    const existingReminder = await getOneReminder(reminderId);
+    const deletedReminder = await reminderDataAccess.deleteOneReminder(existingReminder.id);
     return deletedReminder;
 };
 
