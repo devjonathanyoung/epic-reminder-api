@@ -1,9 +1,6 @@
 import reminderDataAccess from "../data-access/index.js";
 import validator from "validator";
 
-
-
-
 const getAllReminders = async () => {
     const reminders = await reminderDataAccess.selectAllReminders();
     return reminders;
@@ -18,10 +15,6 @@ const getOneReminder = async (reminderId) => {
 };
 
 const createOneReminder = async (newReminder) => {
-    const doublon = await reminderDataAccess.findDoublon(newReminder);
-    if (doublon.length > 0) {
-        return {error : "This reminder name and type already exists."};
-    }
     const reminder = await reminderDataAccess.insertOneReminder(newReminder);
     return {
             message: "This reminder has been successfully created.",
@@ -30,9 +23,28 @@ const createOneReminder = async (newReminder) => {
 };
 
 const updateOneReminder = async (reminderId, update) => {
+    // Does the id exist ?
+    const existingReminder = await getOneReminder(reminderId);
+    if (!existingReminder) {
+        return {
+            message: "Id not found."
+        };
+    }  
+    // Update the body of the reminder with the new info
+    const reminderModified = {...existingReminder, ...update};
+    // Update for real the reminder in the DB
     const updatedReminder = await reminderDataAccess.updateOneReminder(reminderId, update);
-    return updatedReminder;
-};
+    if (!updatedReminder) {
+        return {
+            message: "An error occured when processing update."
+        };
+    } else {
+        return {
+            message: "The reminder has been successfully updated.",
+            updatedReminder
+        };
+    }
+}
 
 const deleteOneReminder = async (reminderId) => {
     if (!validator.isUUID(reminderId)){
@@ -42,16 +54,10 @@ const deleteOneReminder = async (reminderId) => {
     return deletedReminder;
 };
 
-const findDoublon = async (newReminder) => {
-    const doublon = await reminderDataAccess.findDoublon(newReminder);
-    return doublon;
-};
-
 export default {
     getAllReminders,
     getOneReminder,
     createOneReminder,
     updateOneReminder,
     deleteOneReminder,
-    findDoublon
 }

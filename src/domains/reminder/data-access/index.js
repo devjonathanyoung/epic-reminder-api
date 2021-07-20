@@ -7,7 +7,7 @@ const selectAllReminders = async () => {
 
 const selectOneReminder = async (reminderId) => {
   const reminder = await dbReminder("reminder")
-    .select("*")
+    .first("*")
     .where("id", reminderId);
   return reminder;
 };
@@ -41,21 +41,10 @@ const deleteOneReminder = async (reminderId) => {
   return deletedReminder;
 };
 
-const findDoublon = async (newReminder) => {
-  const doublon = await dbReminder("reminder")
-    .where({
-      name: newReminder.name,
-      type: newReminder.type,
-    })
-    .select("id");
-  return doublon;
-};
-
 export default {
   selectAllReminders,
   selectOneReminder,
   insertOneReminder,
   updateOneReminder,
   deleteOneReminder,
-  findDoublon,
 };
