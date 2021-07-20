@@ -1,4 +1,4 @@
 ALTER TABLE reminder ADD comment text;
 
--- Ajoute une contrainte pour avoir des duos name/type uniques (pas de doublon)
+-- Add a constraint to have unique name/type couples (to avoid doublon)
 ALTER TABLE reminder ADD CONSTRAINT uniqueNameType UNIQUE (name, type)
