@@ -6,6 +6,7 @@ import { handleGetAllReminders } from "./routes/handle-get-all-reminders.js";
 import { validationRulesGetOneReminder, handleGetOneReminder } from "./routes/handle-get-one-reminder.js";
 import { validationRulesCreate, handlePostReminder } from "./routes/handle-post-reminder.js";
 import { validationRulesUpdate, handleUpdateReminder } from "./routes/handle-update-reminder.js";
+import { validationRulesDelete, handleDeleteReminder } from "./routes/handle-delete-reminder.js"; 
 
 const router = promiseRouter();
 const { validationResult, matchedData, body, param } = expressValidator;
@@ -34,19 +35,9 @@ router.post("/", validationRulesCreate, handlePostReminder);
 router.put("/:id", validationRulesUpdate, handleUpdateReminder);
 
 
-const validationRulesDelete = [param("id").exists().isUUID()];
-
 /**
  * route to delete a reminder
- * @param {Object} req - Express request object containing the reminder object in the req body
- * @param {Object} res - Express response object
  */
-router.delete("/:id", validationRulesDelete, async (req, res) => {
-    const deletedReminder = await reminderServices.deleteOneReminder(req.params.id);
-    if (!deletedReminder) {
-        return res.send({error : "Id reminder not found."})
-    }
-    res.send({message: "This reminder has been successfully deleted."})
-});
+router.delete("/:id", validationRulesDelete, handleDeleteReminder);
 
 export default router;
