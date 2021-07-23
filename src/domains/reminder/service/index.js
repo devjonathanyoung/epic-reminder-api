@@ -1,4 +1,6 @@
 import reminderDataAccess from "../data-access/index.js";
+import { NotFoundError } from "../../../config/index.js";
+import { APIError } from "../../../config/index.js";
 
 const getAllReminders = async () => {
     const reminders = await reminderDataAccess.selectAllReminders();
@@ -8,7 +10,8 @@ const getAllReminders = async () => {
 const getOneReminder = async (reminderId) => {
     const reminder = await reminderDataAccess.selectOneReminder(reminderId);
     if (!reminder) {
-        throw "Id not found";
+        console.log("rentre ici mais throw le errorHandler au lieu de API Error")
+        throw APIError(404, "Id not found");
     }
     return reminder;
 };

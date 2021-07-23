@@ -4,15 +4,18 @@
  * @param {string} [message=""] Additional information relative to the error
  */
 const APIError = function (code, message) {
-	this.message = message || "Internal server error";
-	this.name = "APIError";
-	this.code = code || 500;
+	console.log("dans API Error => code", code);
+	console.log("dans API Error => message", message);
 
-	if (Error.captureStackTrace) {
+	message = message || "Internal server error";
+	code = code || 500;
+
+	/* if (Error.captureStackTrace) {
+		console.log("dans API Error capture stack")
 		Error.captureStackTrace(this);
-	}
+	} */
 
-	return this;
+	return {code, message};
 };
 
 export default APIError;
