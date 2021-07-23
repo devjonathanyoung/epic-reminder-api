@@ -1,6 +1,6 @@
 /**
  * API Error definition
- * @param {number} code The code of the error (see [the error-code-map.json file])
+ * @param {number} code The code of the error
  * @param {string} [message=""] Additional information relative to the error
  */
 const APIError = function (code, message) {

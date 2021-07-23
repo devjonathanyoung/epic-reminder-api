@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-vm-modules --experimental-json-modules node_modules/jest/bin/jest.js",
-    "start": "npx nodemon -r dotenv/config --experimental-vm-modules --experimental-json-modules index.js"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "start": "npx nodemon -r dotenv/config --experimental-vm-modules index.js"
   },
   "repository": {
     "type": "git",

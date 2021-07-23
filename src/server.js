@@ -1,7 +1,7 @@
 import express from "express";
 import reminderRouter from "./domains/reminder/router/index.js";
 import configureApp from "./config/app-config.js";
-import {APIError, DatabaseError, ErrorHandler} from "./config/index.js";
+import { ErrorHandler } from "./config/index.js";
 
 const app = express();
 

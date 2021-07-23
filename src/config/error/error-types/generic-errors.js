@@ -16,7 +16,8 @@ const GenericError = (code = 500, name = "InternalServerError", message = "Inter
 
 const NotFoundError = GenericError(404, "NotFoundError", "Entity Not Found");
 const DatabaseError = GenericError(500, "DatabaseError", "Internal server error");
+const BadRequest = GenericError(400, "Bad request", "Bad request");
 
 export {
-	NotFoundError, DatabaseError
+	NotFoundError, DatabaseError, BadRequest
 }
