@@ -1,8 +1,12 @@
 import reminderDataAccess from "../data-access/index.js";
 import { APIError, InternalServerError } from "../../../config/index.js";
 
-const getAllReminders = async () => {
-    return await reminderDataAccess.selectAllReminders();
+
+
+
+const getAllReminders = async (sort, order, search, type) => {
+    const reminders = await reminderDataAccess.selectAllReminders(sort, order, search, type);
+    return reminders;
 };
 
 const getOneReminder = async (reminderId) => {
