@@ -5,12 +5,15 @@ import compression from "compression";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import logger from "./logger/index.js";
+import { ErrorHandler } from "./index.js";
 
 const env = process.env.NODE_ENV;
 
 const configureApp = (app) => {
 	// Add Access logs middle ware
-	app.use(morgan("combined", {stream: logger.stream}));
+	app.use(morgan("combined", {
+		stream: logger.stream
+	}));
 
 	// Apply security module
 	app.use(helmet());

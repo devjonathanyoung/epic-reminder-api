@@ -1,6 +1,7 @@
 import express from "express";
 import reminderRouter from "./domains/reminder/router/index.js";
 import configureApp from "./config/app-config.js";
+import { ErrorHandler } from "./config/index.js";
 
 const app = express();
 
@@ -10,7 +11,9 @@ configureApp(app);
 app.use("/reminder", reminderRouter);
 
 app.get("/status", (req, res) => {
-	res.send({message: "Digibul API is online", version: process.env.npm_package_version});
+	res.send({message: "Epic Reminder API is online", version: process.env.npm_package_version});
 })
+
+app.use(ErrorHandler());
 
 export default app;
