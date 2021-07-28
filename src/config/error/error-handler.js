@@ -18,7 +18,12 @@ const errorHandler = () => (err, req, res, next) => {
 	const message = err.message || "Internal server error";
 	const errorCode = err.code || 500;
 
-	res.status(errorCode).send({error_id : id, error: message});
+	// Only send expectedErrors to the frontend else send a regular internal server error
+	if(err.expectedError) {
+		res.status(errorCode).send({error_id: id, error: message});
+	} else {
+		res.sendStatus(500);
+	}
 };
 
 export default errorHandler;

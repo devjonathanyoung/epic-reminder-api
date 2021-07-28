@@ -1,6 +1,6 @@
 import ErrorHandler from "./error-handler.js";
-import { NotFoundError, DatabaseError, BadRequest } from "./error-types/generic-errors.js";
+import { NotFoundError, DatabaseError, BadRequest, InternalServerError } from "./error-types/generic-errors.js";
 
 export {
-	NotFoundError, ErrorHandler, DatabaseError, BadRequest
+	NotFoundError, ErrorHandler, DatabaseError, BadRequest, InternalServerError
 }
