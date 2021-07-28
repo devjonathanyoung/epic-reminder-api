@@ -1,57 +1,38 @@
 import reminderDataAccess from "../data-access/index.js";
-import validator from "validator";
+import { APIError, InternalServerError } from "../../../config/index.js";
 
 const getAllReminders = async () => {
-    const reminders = await reminderDataAccess.selectAllReminders();
-    return reminders;
+    return await reminderDataAccess.selectAllReminders();
 };
 
 const getOneReminder = async (reminderId) => {
-    if (!validator.isUUID(reminderId)){
-        return [];
-    }
     const reminder = await reminderDataAccess.selectOneReminder(reminderId);
+    if (!reminder) {
+        throw new APIError(404, "Id not found");
+    }
     return reminder;
 };
 
 const createOneReminder = async (newReminder) => {
-    const reminder = await reminderDataAccess.insertOneReminder(newReminder);
-    return {
-            message: "This reminder has been successfully created.",
-            newReminder
-                    };
+    return await reminderDataAccess.insertOneReminder(newReminder);
 };
 
 const updateOneReminder = async (reminderId, update) => {
     // Does the id exist ?
     const existingReminder = await getOneReminder(reminderId);
-    if (!existingReminder) {
-        return {
-            message: "Id not found."
-        };
-    }  
-    // Update the body of the reminder with the new info
-    const reminderModified = {...existingReminder, ...update};
+
     // Update for real the reminder in the DB
-    const updatedReminder = await reminderDataAccess.updateOneReminder(reminderId, update);
+    const updatedReminder = await reminderDataAccess.updateOneReminder(existingReminder.id, update);
     if (!updatedReminder) {
-        return {
-            message: "An error occured when processing update."
-        };
+        throw new InternalServerError("An error occured when processing update.");
     } else {
-        return {
-            message: "The reminder has been successfully updated.",
-            updatedReminder
-        };
+        return updatedReminder
     }
-}
+};
 
 const deleteOneReminder = async (reminderId) => {
-    if (!validator.isUUID(reminderId)){
-        return;
-    }
-    const deletedReminder = await reminderDataAccess.deleteOneReminder(reminderId);
-    return deletedReminder;
+    const existingReminder = await getOneReminder(reminderId);
+    return await reminderDataAccess.deleteOneReminder(existingReminder.id);
 };
 
 export default {
