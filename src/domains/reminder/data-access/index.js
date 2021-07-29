@@ -1,12 +1,11 @@
 import dbReminder from "../../../infrastructure/database/index.js";
 
 const selectAllReminders = async (sort, order, search, type) => {
-  let reminders;
+  let reminders = dbReminder("reminder");
+  reminders.select("*").orderBy(`${sort}`, `${order}`).where("name", "ILIKE", `%${search}%` );
   if (type !== "all") {
-    reminders = await dbReminder("reminder").select("*").where("name", "ILIKE", `%${search}%` ).andWhere("type", `${type}` ).orderBy(`${sort}`, `${order}`);
-  } else {
-    reminders = await dbReminder("reminder").select("*").where("name", "ILIKE", `%${search}%` ).orderBy(`${sort}`, `${order}`);
-  }
+    reminders = reminders.andWhere("type", `${type}` );
+  } 
   return reminders;
 };
 
