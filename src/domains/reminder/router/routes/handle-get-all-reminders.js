@@ -6,6 +6,8 @@ import reminderServices from "../../service/index.js"
  * @param {Object} res - Express response object
  */
 export const handleGetAllReminders = async (req, res) => {
-    const reminders = await reminderServices.getAllReminders();
+    const { sort, order, search, type } = req.query;
+    const reminders = await reminderServices.getAllReminders(sort, order, search, type);
     res.send(reminders);
 };
+
