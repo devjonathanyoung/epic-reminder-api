@@ -1,3 +1,4 @@
+import argon2 from "argon2";
 import userDataAccess from "../data-access/index.js";
 import { APIError } from "../../../config/index.js";
 
@@ -18,8 +19,24 @@ const createUser = async (newUser) => {
     return await userDataAccess.insertUser(newUser);
 };
 
+const checkUserForLogin = async (user) => {
+    const foundUser = await userDataAccess.selectUserByUsername(user);
+    if (!foundUser) {
+        throw new APIError(404, "User not found");
+    }
+
+    if (foundUser) {
+        const check = await argon2.verify(foundUser.password, user.password)
+        if(!check) {
+            throw new APIError(404, "Wrong password");
+        }
+        return foundUser;
+    }
+};
+
 export default {
     getAllUsers,
     getUserById,
-    createUser
+    createUser,
+    checkUserForLogin
 }

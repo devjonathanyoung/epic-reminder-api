@@ -23,9 +23,17 @@ const insertUser = async (newUser) => {
     return user;
 };
 
+const selectUserByUsername = async (newUser) => {
+    const foundUser = await dbReminder("user")
+        .first("*")
+        .where({ firstname: newUser.firstName });
+    return foundUser;
+};
+
 
 export default {
 	selectAllUsers,
     selectUserById,
-    insertUser
+    insertUser,
+    selectUserByUsername
 };
