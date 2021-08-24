@@ -28,13 +28,15 @@ export const validationRulesUserLogin = [
 
 	// set cookie expiration as same date from jwt => convert to milliseconds ( * 1000)
 	const cookieExpirationDate = new Date(tokenDecoded.exp * 1000);
-	res.cookie("jwt", userTokenGenerated, { httpOnly: true, secure: process.env.NODE_ENV !== "local", expires: cookieExpirationDate });
-
-	if (!userAuthorized) {
+	
+    if (!userAuthorized) {
 		return res.send(403);
 	}
 
-    res.status(200).send("Logged in successfully 😊 👌");
+	return res
+        .cookie("jwt", userTokenGenerated, { httpOnly: true, secure: process.env.NODE_ENV !== "local", expires: cookieExpirationDate })
+        .status(200)
+        .json({ message: "Logged in successfully 😊 👌" });
 };
 
 

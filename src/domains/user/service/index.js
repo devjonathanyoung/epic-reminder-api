@@ -22,13 +22,13 @@ const createUser = async (newUser) => {
 const checkUserForLogin = async (user) => {
     const foundUser = await userDataAccess.selectUserByUsername(user);
     if (!foundUser) {
-        throw new APIError(401, "Wrong credentials : User not found");
+        throw new APIError(401, "Wrong credentials");
     }
 
     if (foundUser) {
         const check = await argon2.verify(foundUser.password, user.password)
         if(!check) {
-            throw new APIError(401, "Wrong credentials : Wrong password");
+            throw new APIError(401, "Wrong credentials");
         }
         return foundUser;
     }
