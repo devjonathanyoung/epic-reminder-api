@@ -34,7 +34,7 @@ export const validationRulesUserLogin = [
 	}
 
 	return res
-        .cookie("jwt", userTokenGenerated, { httpOnly: true, secure: process.env.NODE_ENV !== "local", expires: cookieExpirationDate })
+        .cookie("jwt", userTokenGenerated, { httpOnly: true, secure: process.env.NODE_ENV !== "local", expires: cookieExpirationDate, sameSite: "lax" })
         .status(200)
         .json({ message: "Logged in successfully 😊 👌" });
 };

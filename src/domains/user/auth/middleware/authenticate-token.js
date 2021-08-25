@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import userService from "../../service/index.js";
+import authService from "../services/index.js";
 
 //TODO: remplacer les res.send par APIError
 /**
@@ -13,19 +14,19 @@ const authenticateToken = async (req, res, next) => {
 
 	if (req) {
 		const token = req.cookies.jwt;
-		//TODO: delete console.log
-		console.log("req.cookies", req.cookies);
-		console.log("token", token);
 
 		// if there isn't any token
-		if (token == null) {
+		if (!token) {
 			res.setHeader("error-type", "TOKEN_INVALID");
 			return res.sendStatus(403);
 		}
+		
+		//decrypt the token to be able to authenticate it
+		const tokenDecrypt = authService.decrypt(token);
 	
 		
 		try {
-			const user = jwt.verify(token, jwtSecret);
+			const user = jwt.verify(tokenDecrypt, jwtSecret);
 			const { id } = user;
 			const storedUser = await userService.getUserById(id);
 
