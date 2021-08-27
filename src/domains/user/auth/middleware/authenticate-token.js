@@ -17,8 +17,8 @@ const authenticateToken = async (req, res, next) => {
 
 		// if there isn't any token
 		if (!token) {
-			res.setHeader("error-type", "TOKEN_INVALID");
-			return res.sendStatus(403);
+			res.setHeader("error-type", "TOKEN_INVALID OR DOESN'T EXIST");
+			return res.sendStatus(401);
 		}
 		
 		//decrypt the token to be able to authenticate it
@@ -31,7 +31,7 @@ const authenticateToken = async (req, res, next) => {
 			const storedUser = await userService.getUserById(id);
 
 			if (!storedUser) {
-				return res.sendStatus(403);
+				return res.sendStatus(401);
 			}
 			//set the req.user info
 			req.user = { ...storedUser };
