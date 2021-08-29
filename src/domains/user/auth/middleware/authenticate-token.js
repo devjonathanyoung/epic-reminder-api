@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
+
 import userService from "../../service/index.js";
 import authService from "../services/index.js";
 
-//TODO: remplacer les res.send par APIError
+// TODO: remplacer les res.send par APIError
 /**
  * Authentication middleware. Gather the jwt access token from the request header
  * @param {Object} req - Express request object
@@ -20,11 +21,10 @@ const authenticateToken = async (req, res, next) => {
 			res.setHeader("error-type", "TOKEN_INVALID OR DOESN'T EXIST");
 			return res.sendStatus(401);
 		}
-		
-		//decrypt the token to be able to authenticate it
+
+		// decrypt the token to be able to authenticate it
 		const tokenDecrypt = authService.decrypt(token);
-	
-		
+
 		try {
 			const user = jwt.verify(tokenDecrypt, jwtSecret);
 			const { id } = user;
@@ -33,10 +33,9 @@ const authenticateToken = async (req, res, next) => {
 			if (!storedUser) {
 				return res.sendStatus(401);
 			}
-			//set the req.user info
+			// set the req.user info
 			req.user = { ...storedUser };
 			return next();
-
 		} catch (err) {
 			return res.sendStatus(403);
 		}

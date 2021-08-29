@@ -9,6 +9,6 @@ const secure = !envIsLocal;
  * CSRF protection middleware
  * @type {(function(*=, *=, *): (*|undefined))}
  */
-const csrfProtection = csrf({ cookie: { httpOnly: true, secure, maxAge, sameSite: "lax"  } });
+const csrfProtection = csrf({ cookie: { httpOnly: true, secure, maxAge, sameSite: "lax" } });
 
 export default csrfProtection;

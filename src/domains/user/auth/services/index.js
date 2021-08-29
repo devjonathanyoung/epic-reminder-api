@@ -1,7 +1,8 @@
-import jwt from "jsonwebtoken";
 import crypto from "crypto";
 
-//TODO: ajouter les fonctions encrypt et decrypt pour le token
+import jwt from "jsonwebtoken";
+
+// TODO: ajouter les fonctions encrypt et decrypt pour le token
 
 const algorithm = "aes-256-ctr";
 const ENCRYPTION_KEY = Buffer.from(process.env.JWT_SECRET_ENCRYPT, "base64");
@@ -11,7 +12,7 @@ const ENCRYPTION_KEY = Buffer.from(process.env.JWT_SECRET_ENCRYPT, "base64");
  * @param {string} text
  * @return {string} encrypted text
  */
- const encrypt = (text) => {
+const encrypt = (text) => {
 	// encrypt in hex
 	const iv = crypto.randomBytes(16);
 	const cipher = crypto.createCipheriv(algorithm, Buffer.from(ENCRYPTION_KEY, "hex"), iv);
@@ -36,7 +37,6 @@ const decrypt = (text) => {
 	const decrypted = decipher.update(encryptedText);
 	return decrypted.toString();
 };
-
 
 /**
  * generate JWT from user info

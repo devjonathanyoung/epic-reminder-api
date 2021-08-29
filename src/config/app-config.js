@@ -1,19 +1,18 @@
-import helmet from "helmet";
-import cors from "cors";
-import morgan from "morgan";
+import bodyParser from "body-parser";
 import compression from "compression";
 import cookieParser from "cookie-parser";
-import bodyParser from "body-parser";
-import logger from "./logger/index.js";
+import cors from "cors";
+import helmet from "helmet";
+import morgan from "morgan";
+
 import { ErrorHandler } from "./index.js";
+import logger from "./logger/index.js";
 
 const env = process.env.NODE_ENV;
 
 const configureApp = (app) => {
 	// Add Access logs middle ware
-	app.use(morgan("combined", {
-		stream: logger.stream
-	}));
+	app.use(morgan("combined", { stream: logger.stream }));
 
 	// Apply security module
 	app.use(helmet());
@@ -24,16 +23,14 @@ const configureApp = (app) => {
 	// Parse entries
 	app.use(cookieParser());
 	app.use(compression());
-	app.use(bodyParser.urlencoded({extended: false}));
+	app.use(bodyParser.urlencoded({ extended: false }));
 	app.use(bodyParser.json());
 
 	// Enable cors only if environment is local
 	if (env === "local") {
-		app.use(cors({
-			origin: process.env.AUTHORIZED_CORS_ORIGIN,
+		app.use(cors({ origin: process.env.AUTHORIZED_CORS_ORIGIN,
 			credentials: true,
-			exposedHeaders: ["error-type", "Content-Disposition", "csrf-token"]
-		}));
+			exposedHeaders: ["error-type", "Content-Disposition", "csrf-token"] }));
 	}
 };
 

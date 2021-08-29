@@ -1,8 +1,8 @@
 import dbReminder from "../../../infrastructure/database/index.js";
 
 const selectAllUsers = async () => dbReminder("user")
-    .select("*")
-    .returning("*");
+	.select("*")
+	.returning("*");
 
 const selectUserById = async (userId) => {
 	const user = await dbReminder("user")
@@ -12,28 +12,23 @@ const selectUserById = async (userId) => {
 };
 
 const insertUser = async (newUser) => {
-    const { firstName, lastName, password } = newUser;
-    const user = await dbReminder("user")
-        .insert({ 
-            firstname: firstName, 
-            lastname: lastName, 
-            password: password
-        })
-        .returning("*");
-    return user;
+	const { firstName, lastName, password } = newUser;
+	const user = await dbReminder("user")
+		.insert({ firstname: firstName,
+			lastname: lastName,
+			password })
+		.returning("*");
+	return user;
 };
 
 const selectUserByUsername = async (newUser) => {
-    const foundUser = await dbReminder("user")
-        .first("*")
-        .where({ firstname: newUser.firstName });
-    return foundUser;
+	const foundUser = await dbReminder("user")
+		.first("*")
+		.where({ firstname: newUser.firstName });
+	return foundUser;
 };
 
-
-export default {
-	selectAllUsers,
-    selectUserById,
-    insertUser,
-    selectUserByUsername
-};
+export default { selectAllUsers,
+	selectUserById,
+	insertUser,
+	selectUserByUsername };

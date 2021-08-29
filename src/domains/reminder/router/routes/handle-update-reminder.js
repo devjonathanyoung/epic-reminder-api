@@ -1,12 +1,14 @@
-import reminderServices from "../../service/index.js";
 import expressValidator from "express-validator";
+
+import reminderServices from "../../service/index.js";
+
 const { body, validationResult, matchedData } = expressValidator;
 
 export const validationRulesUpdate = [
-    body("type").optional().isIn(["movie", "book", "game"]),
-    body("date").optional().isISO8601(),
-    body("name").optional().notEmpty(),
-    body("comment").optional()
+	body("type").optional().isIn(["movie", "book", "game"]),
+	body("date").optional().isISO8601(),
+	body("name").optional().notEmpty(),
+	body("comment").optional()
 ];
 
 /**
@@ -15,12 +17,12 @@ export const validationRulesUpdate = [
  * @param {Object} res - Express response object
  */
 export const handleUpdateReminder = async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.json({ errors: errors.array()});
-    }
-    const validatedDatas = matchedData(req);
-    const updatedReminder = await reminderServices.updateOneReminder(req.params.id, validatedDatas);
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.json({ errors: errors.array() });
+	}
+	const validatedDatas = matchedData(req);
+	const updatedReminder = await reminderServices.updateOneReminder(req.params.id, validatedDatas);
 
-    res.send(updatedReminder);
+	res.send(updatedReminder);
 };

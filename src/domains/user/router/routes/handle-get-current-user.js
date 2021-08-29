@@ -1,4 +1,4 @@
-import userServices from "../../service/index.js"
+import userServices from "../../service/index.js";
 
 /**
  * route serving current user

@@ -1,5 +1,7 @@
-import reminderServices from "../../service/index.js";
 import expressValidator from "express-validator";
+
+import reminderServices from "../../service/index.js";
+
 const { param } = expressValidator;
 
 export const validationRulesDelete = [param("id").exists().isUUID()];
@@ -10,6 +12,6 @@ export const validationRulesDelete = [param("id").exists().isUUID()];
  * @param {Object} res - Express response object
  */
 export const handleDeleteReminder = async (req, res) => {
-    const deletedReminder = await reminderServices.deleteOneReminder(req.params.id);
-    res.send(deletedReminder);
+	const deletedReminder = await reminderServices.deleteOneReminder(req.params.id);
+	res.send(deletedReminder);
 };

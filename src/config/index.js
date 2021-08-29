@@ -3,4 +3,4 @@ import { DatabaseError, NotFoundError, ErrorHandler, BadRequest, InternalServerE
 
 export {
 	APIError, DatabaseError, ErrorHandler, NotFoundError, BadRequest, InternalServerError
-}
+};
