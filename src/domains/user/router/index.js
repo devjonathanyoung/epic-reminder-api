@@ -3,7 +3,6 @@ import promiseRouter from "express-promise-router";
 import { handleGetAllUsers } from "./routes/handle-get-all-users.js";
 import handleGetCurrentUser from "./routes/handle-get-current-user.js";
 import { validationRulesGetUserById, handleGetUserById } from "./routes/handle-get-user-by-id.js";
-import { validationRulesCreateUser, handlePostUser } from "./routes/handle-post-user.js";
 
 const router = promiseRouter();
 
@@ -25,10 +24,5 @@ router.get("/current", handleGetCurrentUser);
  * route to get one user
  */
 router.get("/:id", validationRulesGetUserById, handleGetUserById);
-
-/**
- * route to create a user
- */
-router.post("/", validationRulesCreateUser, handlePostUser);
 
 export default router;

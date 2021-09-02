@@ -14,8 +14,8 @@ const app = express();
 configureApp(app);
 
 // TODO: enlever temp. csrfProtection pour test création user et route user/current (SIGN UP)
-app.use("/reminder", authenticateToken, csrfProtection, reminderRouter);
-app.use("/user", userRouter);
+app.use("/reminder", authenticateToken, reminderRouter);
+app.use("/user", authenticateToken, userRouter);
 app.use("/auth", authRouter);
 
 app.get("/status", (req, res) => {
