@@ -5,7 +5,6 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 
-import { ErrorHandler } from "./index.js";
 import logger from "./logger/index.js";
 
 const env = process.env.NODE_ENV;

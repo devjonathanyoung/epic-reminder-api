@@ -1,10 +1,7 @@
 import promiseRouter from "express-promise-router";
-
-import authenticateToken from "../middleware/authenticate-token.js";
-import csrfProtection from "../middleware/csrf-protection.js";
-import handleGetCSRFToken from "./routes/handle-csrf.js";
 import { validationRulesUserLogin, handleLogin } from "./routes/handle-login.js";
 import { validationRulesCreateUser, handlePostUser } from "./routes/handle-post-user.js";
+import handleLogout from "./routes/handle-logout.js";
 
 const router = promiseRouter();
 
@@ -19,8 +16,8 @@ router.post("/login", validationRulesUserLogin, handleLogin);
 router.post("/sign-up", validationRulesCreateUser, handlePostUser, handleLogin);
 
 /**
- * csrf route
+ * route serving the logout for an user
  */
-//router.get("/csrf", authenticateToken, csrfProtection, handleGetCSRFToken);
+ router.get("/logout", handleLogout);
 
 export default router;
