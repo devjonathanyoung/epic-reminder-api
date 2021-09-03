@@ -16,10 +16,16 @@ const getUserById = async (userId) => {
 	return user;
 };
 
+const findUsername = async (username) => {
+	const user = await userDataAccess.selectUserByUsername(username);
+	console.log("in SERVICES / findUsername ==> user", user);
+	return !!user;
+};
+
 const createUser = async (newUser) => await userDataAccess.insertUser(newUser);
 
 const checkUserForLogin = async (user) => {
-	const foundUser = await userDataAccess.selectUserByUsername(user);
+	const foundUser = await userDataAccess.selectUserByUsername(user.userName);
 	if (!foundUser) {
 		throw new APIError(401, "Wrong credentials");
 	}
@@ -34,4 +40,4 @@ const checkUserForLogin = async (user) => {
 	return null;
 };
 
-export default { getAllUsers, getUserById, createUser, checkUserForLogin };
+export default { getAllUsers, getUserById, createUser, findUsername, checkUserForLogin };

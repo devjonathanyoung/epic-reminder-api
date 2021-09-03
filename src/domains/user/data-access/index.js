@@ -23,10 +23,10 @@ const insertUser = async (newUser) => {
 	return user;
 };
 
-const selectUserByUsername = async (newUser) => {
+const selectUserByUsername = async (username) => {
 	const foundUser = await dbReminder("user")
 		.first("*")
-		.where({ username: newUser.userName });
+		.where({ username });
 	return foundUser;
 };
 

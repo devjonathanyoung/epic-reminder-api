@@ -6,10 +6,6 @@ import { validationRulesGetUserById, handleGetUserById } from "./routes/handle-g
 
 const router = promiseRouter();
 
-// TODO: après avoir créé les routes
-// const checkPermissions = require("dbl-config/permissions/check-permission");
-// const userPermissions = checkPermissions("user");
-
 /**
  * route serving all user
  */
@@ -21,7 +17,7 @@ router.get("/", handleGetAllUsers);
 router.get("/current", handleGetCurrentUser);
 
 /**
- * route to get one user
+ * route to get one user by its id
  */
 router.get("/:id", validationRulesGetUserById, handleGetUserById);
 
