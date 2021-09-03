@@ -5,6 +5,7 @@ import userServices from "../../../service/index.js";
 const { body, validationResult, matchedData } = expressValidator;
 
 export const validationRulesCreateUser = [
+	body("userName").exists(),
 	body("firstName").exists(),
 	body("lastName").exists(),
 	body("password").exists()

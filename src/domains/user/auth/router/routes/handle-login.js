@@ -7,7 +7,7 @@ const { body, validationResult, matchedData } = expressValidator;
 
 // TODO: changer les export const en const ....puis à la fin export default { ... }
 export const validationRulesUserLogin = [
-	body("firstName").exists(),
+	body("userName").exists(),
 	body("password").exists()
 ];
 

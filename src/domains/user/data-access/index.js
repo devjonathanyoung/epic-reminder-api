@@ -12,9 +12,11 @@ const selectUserById = async (userId) => {
 };
 
 const insertUser = async (newUser) => {
-	const { firstName, lastName, password } = newUser;
+	const { userName, firstName, lastName, password } = newUser;
 	const user = await dbReminder("user")
-		.insert({ firstname: firstName,
+		.insert({ 
+			username: userName,
+			firstname: firstName,
 			lastname: lastName,
 			password })
 		.returning("*");
@@ -24,7 +26,7 @@ const insertUser = async (newUser) => {
 const selectUserByUsername = async (newUser) => {
 	const foundUser = await dbReminder("user")
 		.first("*")
-		.where({ firstname: newUser.firstName });
+		.where({ username: newUser.userName });
 	return foundUser;
 };
 
