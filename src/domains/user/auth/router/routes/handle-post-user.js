@@ -4,7 +4,7 @@ import userServices from "../../../service/index.js";
 
 const { body, validationResult, matchedData } = expressValidator;
 
-export const validationRulesCreateUser = [
+const validationRulesCreateUser = [
 	body("userName").exists(),
 	body("firstName").exists(),
 	body("lastName").exists(),
@@ -17,7 +17,7 @@ export const validationRulesCreateUser = [
  * @param {Object} res - Express response object
  */
 
-export const handlePostUser = async (req, res, next) => {
+const handlePostUser = async (req, res, next) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.json({ errors: errors.array() });
@@ -30,3 +30,5 @@ export const handlePostUser = async (req, res, next) => {
 
 	next();
 };
+
+export { validationRulesCreateUser, handlePostUser };

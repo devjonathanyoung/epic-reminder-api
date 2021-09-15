@@ -5,8 +5,7 @@ import authServices from "../../services/index.js";
 
 const { body, validationResult, matchedData } = expressValidator;
 
-// TODO: changer les export const en const ....puis à la fin export default { ... }
-export const validationRulesUserLogin = [
+const validationRulesUserLogin = [
 	body("userName").exists(),
 	body("password").exists()
 ];
@@ -16,7 +15,7 @@ export const validationRulesUserLogin = [
  * @param {Object} req - Express request object containing the reminder object in the req body
  * @param {Object} res - Express response object
  */
-export const handleLogin = async (req, res) => {
+const handleLogin = async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.json({ errors: errors.array() });
@@ -40,3 +39,5 @@ export const handleLogin = async (req, res) => {
 		.status(200)
 		.json({ message: "Logged in successfully 😊 👌" });
 };
+
+export { validationRulesUserLogin, handleLogin };

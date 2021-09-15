@@ -4,7 +4,7 @@ import reminderServices from "../../service/index.js";
 
 const { body, validationResult, matchedData } = expressValidator;
 
-export const validationRulesCreate = [
+const validationRulesCreate = [
 	body("type").isIn(["movie", "book", "game"]),
 	body("date").optional().isISO8601(),
 	body("name").exists(),
@@ -17,7 +17,7 @@ export const validationRulesCreate = [
  * @param {Object} res - Express response object
  */
 
-export const handlePostReminder = async (req, res) => {
+const handlePostReminder = async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.json({ errors: errors.array() });
@@ -26,3 +26,5 @@ export const handlePostReminder = async (req, res) => {
 	const resultCreation = await reminderServices.createOneReminder(validateDatas);
 	res.send(resultCreation);
 };
+
+export { validationRulesCreate, handlePostReminder };

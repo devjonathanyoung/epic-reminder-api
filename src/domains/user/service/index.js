@@ -18,7 +18,6 @@ const getUserById = async (userId) => {
 
 const findUsername = async (username) => {
 	const user = await userDataAccess.selectUserByUsername(username);
-	console.log("in SERVICES / findUsername ==> user", user);
 	return !!user;
 };
 

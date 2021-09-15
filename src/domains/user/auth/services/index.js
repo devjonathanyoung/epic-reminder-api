@@ -2,10 +2,8 @@ import crypto from "crypto";
 
 import jwt from "jsonwebtoken";
 
-// TODO: ajouter les fonctions encrypt et decrypt pour le token
-
 const algorithm = "aes-256-ctr";
-const ENCRYPTION_KEY = Buffer.from(process.env.JWT_SECRET_ENCRYPT, "base64");
+const ENCRYPTION_KEY = Buffer.from(process.env.JWT_SECRET_ENCRYPT || "bXktZW5jcnlwdGlvbi1rZXk=", "base64");
 
 /**
  * encrypt in hex and concat iv hex

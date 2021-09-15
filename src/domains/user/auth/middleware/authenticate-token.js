@@ -34,7 +34,7 @@ const authenticateToken = async (req, res, next) => {
 				return res.sendStatus(401);
 			}
 			// set the req.user info
-			req.user = { ...storedUser };
+			req.user = { id: storedUser.id };
 			return next();
 		} catch (err) {
 			return res.sendStatus(403);

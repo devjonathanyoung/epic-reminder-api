@@ -4,7 +4,7 @@ import reminderServices from "../../service/index.js";
 
 const { param } = expressValidator;
 
-export const validationRulesGetOneReminder = [param("id").exists().isUUID()];
+const validationRulesGetOneReminder = [param("id").exists().isUUID()];
 
 /**
  * route to get one reminder
@@ -12,7 +12,9 @@ export const validationRulesGetOneReminder = [param("id").exists().isUUID()];
  * @param {Object} res - Express response object
  */
 
-export const handleGetOneReminder = async (req, res) => {
+const handleGetOneReminder = async (req, res) => {
 	const reminder = await reminderServices.getOneReminder(req.params.id);
 	res.send(reminder);
 };
+
+export { validationRulesGetOneReminder, handleGetOneReminder };

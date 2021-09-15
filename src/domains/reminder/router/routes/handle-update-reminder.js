@@ -4,7 +4,7 @@ import reminderServices from "../../service/index.js";
 
 const { body, validationResult, matchedData } = expressValidator;
 
-export const validationRulesUpdate = [
+const validationRulesUpdate = [
 	body("type").optional().isIn(["movie", "book", "game"]),
 	body("date").optional().isISO8601(),
 	body("name").optional().notEmpty(),
@@ -16,7 +16,7 @@ export const validationRulesUpdate = [
  * @param {Object} req - Express request object containing the reminder object in the req body
  * @param {Object} res - Express response object
  */
-export const handleUpdateReminder = async (req, res) => {
+const handleUpdateReminder = async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.json({ errors: errors.array() });
@@ -26,3 +26,5 @@ export const handleUpdateReminder = async (req, res) => {
 
 	res.send(updatedReminder);
 };
+
+export { validationRulesUpdate, handleUpdateReminder };
