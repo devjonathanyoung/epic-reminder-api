@@ -1,12 +1,12 @@
 import dbReminder from "../../../infrastructure/database/index.js";
 
 const selectAllReminders = async (sort, order, search, type) => {
-  let reminders = dbReminder("reminder");
-  reminders.select("*").orderBy(`${sort}`, `${order}`).where("name", "ILIKE", `%${search}%` );
-  if (type !== "all") {
-    reminders = reminders.andWhere("type", `${type}` );
-  } 
-  return reminders;
+	let reminders = dbReminder("reminder");
+	reminders.select("*").orderBy(`${sort}`, `${order}`).where("name", "ILIKE", `%${search}%`);
+	if (type !== "all") {
+		reminders = reminders.andWhere("type", `${type}`);
+	}
+	return reminders;
 };
 
 const selectOneReminder = async (reminderId) => {
@@ -17,9 +17,9 @@ const selectOneReminder = async (reminderId) => {
 };
 
 const insertOneReminder = async (newReminder) => {
-	const {date, name, type, comment} = newReminder;
+	const { date, name, type, comment } = newReminder;
 	const reminder = await dbReminder("reminder")
-		.insert({date, name, type, comment})
+		.insert({ date, name, type, comment })
 		.returning("*");
 	return reminder;
 };
@@ -46,10 +46,8 @@ const deleteOneReminder = async (reminderId) => {
 	return deletedReminder;
 };
 
-export default {
-	selectAllReminders,
+export default { selectAllReminders,
 	selectOneReminder,
 	insertOneReminder,
 	updateOneReminder,
-	deleteOneReminder,
-};
+	deleteOneReminder };

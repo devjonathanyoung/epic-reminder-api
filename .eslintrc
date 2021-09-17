@@ -1,0 +1,65 @@
+{
+  "parser": "@babel/eslint-parser",
+  "extends": "airbnb-base",
+  "parserOptions": {
+    "requireConfigFile": false
+  },
+  "env": {
+    "es6": true,
+    "jest": true
+  },
+  "rules": {
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "react",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [
+          "react"
+        ],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "max-len": [
+      "error",
+      180
+    ],
+    "indent": [
+      "error",
+      "tab"
+    ],
+    "no-tabs": "off",
+    "quotes": [
+      "error",
+      "double"
+    ],
+    "import/extensions": 0,
+    "comma-dangle": [
+      "error",
+      "never"
+    ],
+    "no-shadow": [
+      "error"
+    ],
+    "object-curly-newline": [
+      "error",
+      {
+        "minProperties": 6
+      }
+    ]
+  }
+}

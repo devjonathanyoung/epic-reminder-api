@@ -1,13 +1,14 @@
-import reminderServices from "../../service/index.js";
 import expressValidator from "express-validator";
+
+import reminderServices from "../../service/index.js";
+
 const { body, validationResult, matchedData } = expressValidator;
 
-
-export const validationRulesCreate = [
-    body("type").isIn(["movie", "book", "game"]),
-    body("date").optional().isISO8601(),
-    body("name").exists(),
-    body("comment").optional()
+const validationRulesCreate = [
+	body("type").isIn(["movie", "book", "game"]),
+	body("date").optional().isISO8601(),
+	body("name").exists(),
+	body("comment").optional()
 ];
 
 /**
@@ -16,12 +17,14 @@ export const validationRulesCreate = [
  * @param {Object} res - Express response object
  */
 
- export const handlePostReminder = async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.json({ errors: errors.array()});
-    }
-    const validateDatas = matchedData(req);
-    const resultCreation = await reminderServices.createOneReminder(validateDatas);
-    res.send(resultCreation);
+const handlePostReminder = async (req, res) => {
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.json({ errors: errors.array() });
+	}
+	const validateDatas = matchedData(req);
+	const resultCreation = await reminderServices.createOneReminder(validateDatas);
+	res.send(resultCreation);
 };
+
+export { validationRulesCreate, handlePostReminder };

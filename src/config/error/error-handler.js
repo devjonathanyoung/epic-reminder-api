@@ -10,7 +10,7 @@ const errorHandler = () => (err, req, res, next) => {
 	logger.error(`[${id}] - ${err.stack}`);
 
 	// If the Error call has a specific Message
-	if(err.customMessage) {
+	if (err.customMessage) {
 		logger.error(`[${id}] : additionnal message - ${err.customMessage}`);
 	}
 
@@ -19,8 +19,8 @@ const errorHandler = () => (err, req, res, next) => {
 	const errorCode = err.code || 500;
 
 	// Only send expectedErrors to the frontend else send a regular internal server error
-	if(err.expectedError) {
-		res.status(errorCode).send({error_id: id, error: message});
+	if (err.expectedError) {
+		res.status(errorCode).send({ error_id: id, error: message });
 	} else {
 		res.sendStatus(500);
 	}

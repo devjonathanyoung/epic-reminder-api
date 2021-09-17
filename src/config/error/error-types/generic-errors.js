@@ -1,10 +1,10 @@
 const GenericError = (code = 500, name = "InternalServerError", message = "Internal Server Error") => function (customMessage) {
 	// Check if ApiError has been called with new to make sure "this" exists
 	if (!new.target) {
-		throw Error("APIError has not been called with new")
+		throw Error("APIError has not been called with new");
 	}
 
-	if(!customMessage) {
+	if (!customMessage) {
 		this.message = message;
 	}
 	this.message = message;
@@ -25,6 +25,4 @@ const DatabaseError = GenericError(500, "DatabaseError", "Internal server error"
 const InternalServerError = GenericError(500, "InternalServerError", "Internal server error");
 const BadRequest = GenericError(400, "Bad request", "Bad request");
 
-export {
-	NotFoundError, DatabaseError, BadRequest, InternalServerError
-}
+export { NotFoundError, DatabaseError, BadRequest, InternalServerError };

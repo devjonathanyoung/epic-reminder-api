@@ -1,6 +1,9 @@
+import dotenv from "dotenv";
+dotenv.config({ path: "./test.env" });
+
 import { jest } from "@jest/globals";
 import request from "supertest";
-import app from "../src/server";
+import app from "../src/app.js";
 
 beforeEach(() => {
 	jest.resetModules();
