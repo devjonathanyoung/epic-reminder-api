@@ -7,6 +7,14 @@ const insertFav = async (newFav) => {
 	return reminderFav;
 };
 
+const selectAllRemindersByUser = async (userId) => {
+	const allRemindersByUser = await dbReminder("reminder_fav")
+		.select("*")
+		.where("user_id", userId);
+	return allRemindersByUser;
+};
+
 export default {
-	insertFav
+	insertFav,
+	selectAllRemindersByUser
 };
