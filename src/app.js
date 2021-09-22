@@ -3,6 +3,7 @@ import express from "express";
 import configureApp from "./config/app-config.js";
 import { ErrorHandler } from "./config/index.js";
 import reminderRouter from "./domains/reminder/router/index.js";
+import reminderFavRouter from "./domains/reminder-fav/router/index.js";
 import authenticateToken from "./domains/user/auth/middleware/authenticate-token.js";
 import authRouter from "./domains/user/auth/router/index.js";
 import userRouter from "./domains/user/router/index.js";
@@ -13,6 +14,7 @@ const app = express();
 configureApp(app);
 
 app.use("/reminder", authenticateToken, reminderRouter);
+app.use("/reminder-fav", authenticateToken, reminderFavRouter);
 app.use("/user", authenticateToken, userRouter);
 app.use("/auth", authRouter);
 
