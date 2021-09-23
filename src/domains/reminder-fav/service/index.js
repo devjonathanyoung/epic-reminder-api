@@ -1,6 +1,15 @@
 import { InternalServerError } from "../../../config/index.js";
 import reminderFavDataAccess from "../data-access/index.js";
 
+const getAllRemindersFavByUser = async (userId) => {
+	const allFavByUser = await reminderFavDataAccess.selectAllRemindersByUser(userId);
+	
+	if(!allFavByUser) {
+		throw new InternalServerError("An error occured when selecting all reminders by user");
+	}
+	return allFavByUser;
+};
+
 const deleteReminderFav = async (reminderFavId) => {
 	const removedReminderFav = await reminderFavDataAccess.deleteReminderFav(reminderFavId);
 	if(!removedReminderFav) {
@@ -35,6 +44,7 @@ const addReminderFav = async (newFav) => {
 
 
 export default {
+	getAllRemindersFavByUser,
 	addReminderFav,
 	deleteReminderFav
 };
