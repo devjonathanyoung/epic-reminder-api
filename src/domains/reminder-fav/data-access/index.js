@@ -14,7 +14,16 @@ const selectAllRemindersByUser = async (userId) => {
 	return allRemindersByUser;
 };
 
+const deleteReminderFav = async (reminderFavId) => {
+	const deletedReminderFav = await dbReminder("reminder_fav")
+		.where("id", reminderFavId)
+		.del()
+		.returning("*");
+	return deletedReminderFav;
+};
+
 export default {
 	insertFav,
-	selectAllRemindersByUser
+	selectAllRemindersByUser,
+	deleteReminderFav
 };

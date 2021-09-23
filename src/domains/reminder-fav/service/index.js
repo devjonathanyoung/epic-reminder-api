@@ -1,5 +1,13 @@
-import { APIError, InternalServerError } from "../../../config/index.js";
+import { InternalServerError } from "../../../config/index.js";
 import reminderFavDataAccess from "../data-access/index.js";
+
+const deleteReminderFav = async (reminderFavId) => {
+	const removedReminderFav = await reminderFavDataAccess.deleteReminderFav(reminderFavId);
+	if(!removedReminderFav) {
+		throw new InternalServerError("An error occured when deleting the fav");
+	}
+	return removedReminderFav;
+};
 
 const addReminderFav = async (newFav) => {
 	
@@ -11,10 +19,11 @@ const addReminderFav = async (newFav) => {
 	}
 	
 	// send true or false if the newFav is already exist in the list
-	const favAlreadyAdd = allFavByUser.some(fav => fav.reminder_id === newFav.reminder_id);
-	
+	const favAlreadyAdd = allFavByUser.find(fav => fav.reminder_id === newFav.reminder_id);
+
 	if (favAlreadyAdd) {
-		throw new APIError(500, "This favourite already exists for this user");
+		//delete the fav if already exists
+		return deleteReminderFav(favAlreadyAdd.id);
 	}
 
 	const favAdded = await reminderFavDataAccess.insertFav(newFav);
@@ -24,6 +33,8 @@ const addReminderFav = async (newFav) => {
 	return favAdded;
 };
 
+
 export default {
-	addReminderFav
+	addReminderFav,
+	deleteReminderFav
 };
