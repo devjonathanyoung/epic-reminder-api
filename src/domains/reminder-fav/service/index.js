@@ -2,8 +2,7 @@ import { InternalServerError } from "../../../config/index.js";
 import reminderFavDataAccess from "../data-access/index.js";
 
 const getAllRemindersFavByUser = async (userId) => {
-	const allFavByUser = await reminderFavDataAccess.selectAllRemindersByUser(userId);
-	
+	const allFavByUser = await reminderFavDataAccess.selectAllRemindersFavByUser(userId);
 	if(!allFavByUser) {
 		throw new InternalServerError("An error occured when selecting all reminders by user");
 	}
@@ -21,7 +20,7 @@ const deleteReminderFav = async (reminderFavId) => {
 const addReminderFav = async (newFav) => {
 	
 	// retrieve the list of all reminders for a selected user
-	const allFavByUser = await reminderFavDataAccess.selectAllRemindersByUser(newFav.user_id);
+	const allFavByUser = await reminderFavDataAccess.selectAllRemindersFavByUser(newFav.user_id);
 
 	if(!allFavByUser) {
 		throw new InternalServerError("An error occured when selecting all reminders by user");
@@ -29,7 +28,7 @@ const addReminderFav = async (newFav) => {
 	
 	// send true or false if the newFav is already exist in the list
 	const favAlreadyAdd = allFavByUser.find(fav => fav.reminder_id === newFav.reminder_id);
-
+	
 	if (favAlreadyAdd) {
 		//delete the fav if already exists
 		return deleteReminderFav(favAlreadyAdd.id);
