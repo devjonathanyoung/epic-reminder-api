@@ -7,6 +7,7 @@ const insertFav = async (newFav) => {
 	return reminderFav;
 };
 
+//TODO: remove cette requête si on utilise la même dans reminder/data-access
 const selectAllRemindersFavByUser = async (userId) => {
 	const allRemindersByUser = await dbReminder("reminder_fav")
 		.join("reminder", "reminder_fav.reminder_id", "=", "reminder.id")

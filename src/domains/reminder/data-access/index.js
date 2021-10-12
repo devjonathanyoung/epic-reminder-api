@@ -1,8 +1,28 @@
 import dbReminder from "../../../infrastructure/database/index.js";
 
-const selectAllReminders = async (sort, order, search, type) => {
+const selectAllReminders = async (sort, order, search, type, userId) => {
 	let reminders = dbReminder("reminder");
-	reminders.select("*").orderBy(`${sort}`, `${order}`).where("name", "ILIKE", `%${search}%`);
+	let reminderId = dbReminder.ref("reminder.id");
+
+	// TODO: créér cette sous requête de façon à ce qu'elle renvoie uniquement le champ is_favorite si le reminder.id se trouve dans 
+	// la table "reminder_fav" (colonne reminder_id) ET que le user_id correspond bien au user connecté et donné en param de la requête
+	let subqueryFav = dbReminder("reminder_fav")
+	.whereRaw(`CASE WHEN reminder_fav.reminder_id = ${reminderId} THEN 'true' ELSE 'false' END AS "is_favorite"`)
+	.andWhere("user_id","=", userId)
+	.as("is_favorite")
+
+	//TODO: tests autres subqueries: 
+	//const subqueryFav = dbReminder.raw(`JOIN reminder_fav ON CASE WHEN reminder_fav.reminder_id = reminder.id AND user_id = ${userId} THEN 'true' ELSE 'false' END AS isFavorite`)
+	//const subqueryFav = dbReminder.raw("CASE WHEN reminder_fav.reminder_id = reminder.id THEN 'true' ELSE 'false' END AS isFavorite")
+
+	console.log("subqueryFav ========>", subqueryFav);
+
+	//TODO: mettre en 2nd argument du select, la sous-requête obtenue à partir de subqueryFav (qui ne renverra en réponse que le champ is_favorite)
+	reminders
+		.select("*")
+		.orderBy(`${sort}`, `${order}`)
+		.where("name", "ILIKE", `%${search}%`);
+
 	if (type !== "all") {
 		reminders = reminders.andWhere("type", `${type}`);
 	}
